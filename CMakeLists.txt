@@ -1,0 +1,10 @@
+project(odczytywanie_obrazu)
+cmake_minimum_required(VERSION 2.8)
+set(CMAKE_C_FLAGS "-D_DEBUG=1")
+file(GLOB Demo_HEADERS RELATIVE ${CMAKE_SOURCE_DIR}/include "*.h")
+SET(obraz_SOURCES main.c lista.c menu.c obraz.c plik.c)
+SET(obraz_HEADERS lista.h menu.h obraz.h plik.h)
+aux_source_directory(. SRC_LIST)
+set(CMAKE_BUILD_TYPE Debug)
+add_executable(${PROJECT_NAME} ${SRC_LIST} ${obraz_SOURCES} ${obraz_HEADERS})
+
