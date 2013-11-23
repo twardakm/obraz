@@ -15,3 +15,18 @@ int zarezerwuj_pamiec_dane(obraz *img)
     if(_DEBUG) printf("Zaalokowano x = %d\n", img->width);
     return MALLOC_OK;
 }
+
+int zwolnij_pamiec_obraz(obraz *img)
+{
+    int i;
+    if (_DEBUG) printf("zwalnianie pamieci... ");
+    free(img->nazwa_pliku);
+
+    for(i = 0; i < img->height; i++)
+        free(img->dane[i]);
+    free(img->dane);
+
+    if (_DEBUG) printf("OK\n");
+
+    return FREE_MEM_OK;
+}

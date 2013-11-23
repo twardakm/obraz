@@ -11,5 +11,6 @@ typedef struct obraz
 } obraz;
 
 int zarezerwuj_pamiec_dane(obraz *img);
+int zwolnij_pamiec_obraz(obraz *img);
 
 #endif // OBRAZ_H

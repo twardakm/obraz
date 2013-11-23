@@ -21,6 +21,7 @@ element * clear(element *first)
     if (first == NULL)
         return NULL;
     clear(first->next);
+    zwolnij_pamiec_obraz(first->img);
     free(first);
 
     return NULL;
