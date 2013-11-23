@@ -16,23 +16,6 @@ element * push(element *first, element *newone)
     return first;
 }
 
-/*void wyswietl(element *first)
-{
-    if(first==NULL)
-    {
-        printf("Lista jest pusta\n");
-    }
-    else
-    {
-        do
-        {
-            printf("[%d]->", first->data);
-            first = first->next;
-        }while(first != NULL);
-        printf("NULL\n");
-    }
-}*/
-
 element * clear(element *first)
 {
     if (first == NULL)
