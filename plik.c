@@ -23,6 +23,7 @@ int odczytaj_plik(element *lista)
         printf("OK\n");
 
     //zapisywanie elemntu do listy
+    int i;
     element * temp = (element * )malloc(sizeof(element));
     temp->next = NULL;
     temp->img = (obraz *)malloc(sizeof(obraz));
@@ -50,6 +51,12 @@ int odczytaj_plik(element *lista)
         printf("Błąd odczytu z pliku!\n");
         if(_DEBUG) printf("Błąd %d\n", MALLOC_ERR);
         return MALLOC_ERR;
+    }
+    if(i = odczytaj_dane(plik, temp->img) != ODCZYTAJ_OK)
+    {
+        printf("Błąd odczytu z pliku!\n");
+        if(_DEBUG) printf("Błąd %d\n", i);
+        return i;
     }
 
     fclose(plik);

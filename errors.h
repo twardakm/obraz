@@ -7,5 +7,6 @@
 #define MALLOC_ERR 10
 #define MALLOC_OK 0
 
+#define ODCZYTAJ_OK 0
 
 #endif // ERRORS_H
