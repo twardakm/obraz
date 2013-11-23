@@ -6,9 +6,46 @@
 
 int odczytaj_dane(FILE *plik, obraz *img)
 {
-    int i;
+    int wiersz, kolumna, err;
+    char c;
 
-    return 1;
+    if ((err = sprawdz_czy_komentarz(plik)) != COMMENT_OK)
+    {
+        if(_DEBUG) printf("Komentarz err: %d\n", err);
+        return err;
+    }
+
+    //teraz dwie pętle do odczytu dwuwymiarowej tablicy
+    for (wiersz = 0; wiersz < img->height; wiersz++)
+    {
+        for(kolumna = 0; kolumna < img->width; kolumna++)
+            fscanf(plik, "%d", &img->dane[wiersz][kolumna]);
+
+        /*WAŻNE, musi odczytywać znak końca poprzedniej linii*/
+        c = fgetc(plik);
+        while(c != '\n' && c != EOF)
+            c = fgetc(plik);
+        /*----------*/
+        // po każdej linii sprawdzenie czy komentarz
+        if (c != EOF)
+        {
+            if ((err = sprawdz_czy_komentarz(plik)) != COMMENT_OK)
+            {
+                if(_DEBUG) printf("Komentarz err: %d\n", err);
+                return err;
+            }
+        }
+    }
+    if (_DEBUG) //wyświetlenie tego co odczytane
+    {
+        for (wiersz = 0; wiersz < img->height; wiersz++)
+        {
+            for (kolumna = 0; kolumna < img->width; kolumna++)
+                printf("%d ", img->dane[wiersz][kolumna]);
+            printf("\n");
+        }
+    }
+    return READ_DATA_OK;
 }
 
 int odczytaj_plik(element *lista)
@@ -37,7 +74,7 @@ int odczytaj_plik(element *lista)
     temp->img->nazwa_pliku = (char *)malloc(sizeof(char) * strlen(nazwa_pliku));
     strcpy(temp->img->nazwa_pliku, nazwa_pliku);
 
-    if((err = odczytaj_rodzaj_obrazka(plik, temp->img)) != FILE_READ_OK)
+    if((err = odczytaj_rodzaj_obrazka(plik, temp->img)) != ART_OK)
     {
         printf("Błąd odczytu z pliku\n");
         fclose(plik);
@@ -61,12 +98,14 @@ int odczytaj_plik(element *lista)
         if(_DEBUG) printf("Błąd %d\n", err);
         return err;
     }
-    /*if((plik = odczytaj_dane(plik, temp->img)) == NULL)
+    if((err = odczytaj_dane(plik, temp->img)) != READ_DATA_OK)
     {
         printf("Błąd odczytu z pliku!\n");
-        if(_DEBUG) printf("Błąd %d\n", FILE_READ_ERR);
-        return FILE_READ_ERR;
-    }*/
+        fclose(plik);
+        free(nazwa_pliku);
+        if(_DEBUG) printf("Błąd %d\n", err);
+        return err;
+    }
 
     fclose(plik);
     free(nazwa_pliku);
@@ -135,25 +174,23 @@ int odczytaj_wielkosc_obrazka(FILE *plik, obraz *img)
 int sprawdz_czy_komentarz(FILE *plik)
 {
     char c = fgetc(plik);
-    while (c == '#')
+    while (c == '#' && c != EOF)
     {
         if (_DEBUG) printf("Znaleziono komentarz\n");
-        while(fgetc(plik) != '\n') {} // żeby przeszkoczyć całą linię
+        do
+        {
+            c = fgetc(plik);
+        } while (c != '\n' && c != EOF);
         c = fgetc(plik);
     }
-    if (!fseek(plik, ftell(plik) - 1, SEEK_SET) && c != EOF)
+    if (!fseek(plik, ftell(plik) - 1, SEEK_SET))
     {
         if (_DEBUG) printf("Nie znaleziono komentarza\n");
         return COMMENT_OK;
     }
-    else if (c == EOF)
-    {
-        if (_DEBUG) printf("EOF\n");
-        return COMMENT_EOF;
-    }
     else
     {
         printf("Błąd odczytu z pliku\n");
-        return COMMENT_OTHER;
+        return COMMENT_ERR;
     }
 }
