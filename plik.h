@@ -6,8 +6,6 @@
 #include <stdio.h>
 
 #define MAX_FILE_NAME 20
-#define FILE_OPEN_ERR 1
-#define FILE_READ_ERR 2
 
 int odczytaj_plik(element *lista);
 FILE * odczytaj_rodzaj_obrazka(FILE *plik, obraz *img);

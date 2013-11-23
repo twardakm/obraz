@@ -1,4 +1,5 @@
 #include "plik.h"
+#include "errors.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -33,6 +34,7 @@ int odczytaj_plik(element *lista)
         printf("Błąd odczytu z pliku\n");
         fclose(plik);
         free(nazwa_pliku);
+        if(_DEBUG) printf("Błąd %d\n", FILE_READ_ERR);
         return FILE_READ_ERR;
     }
     if((plik = odczytaj_wielkosc_obrazka(plik, temp->img)) == NULL)
@@ -40,7 +42,14 @@ int odczytaj_plik(element *lista)
         printf("Błąd odczytu z pliku\n");
         fclose(plik);
         free(nazwa_pliku);
+        if(_DEBUG) printf("Błąd %d\n", FILE_READ_ERR);
         return FILE_READ_ERR;
+    }
+    if(zarezerwuj_pamiec_dane(temp->img) == MALLOC_ERR)
+    {
+        printf("Błąd odczytu z pliku!\n");
+        if(_DEBUG) printf("Błąd %d\n", MALLOC_ERR);
+        return MALLOC_ERR;
     }
 
     fclose(plik);

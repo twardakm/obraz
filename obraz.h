@@ -10,4 +10,6 @@ typedef struct obraz
     int **dane;
 } obraz;
 
+int zarezerwuj_pamiec_dane(obraz *img);
+
 #endif // OBRAZ_H
