@@ -66,7 +66,7 @@ int odczytaj_plik(element *lista)
         printf("Błąd odczytu z pliku!\n");
         if(_DEBUG) printf("Błąd %d\n", FILE_READ_ERR);
         return FILE_READ_ERR;
-    }*/
+    }
 
     fclose(plik);
     free(nazwa_pliku);

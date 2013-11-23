@@ -7,10 +7,10 @@
 
 #define MAX_FILE_NAME 20
 
-FILE * odczytaj_dane(FILE *plik, obraz *img);
+int odczytaj_dane(FILE *plik, obraz *img);
 int odczytaj_plik(element *lista);
-FILE * odczytaj_rodzaj_obrazka(FILE *plik, obraz *img);
-FILE * odczytaj_wielkosc_obrazka(FILE *plik, obraz *img);
-FILE * sprawdz_czy_komentarz(FILE *plik);
+int odczytaj_rodzaj_obrazka(FILE *plik, obraz *img);
+int odczytaj_wielkosc_obrazka(FILE *plik, obraz *img);
+int sprawdz_czy_komentarz(FILE *plik);
 
 #endif // PLIK_H
