@@ -2,6 +2,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+element * clear(element *first)
+{
+    if (first == NULL)
+        return NULL;
+    clear(first->next);
+    zwolnij_pamiec_obraz(first->img);
+    free(first);
+
+    return NULL;
+}
 
 element * push(element *first, element *newone)
 {
@@ -16,13 +26,13 @@ element * push(element *first, element *newone)
     return first;
 }
 
-element * clear(element *first)
+int size(element *first)
 {
-    if (first == NULL)
-        return NULL;
-    clear(first->next);
-    zwolnij_pamiec_obraz(first->img);
-    free(first);
-
-    return NULL;
+    int i = 0;
+    while(first != NULL)
+    {
+        i++;
+        first = first->next;
+    }
+    return i;
 }

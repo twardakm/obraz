@@ -5,6 +5,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void tekst_powitalny(int ile)
+{
+    printf("ODCZYTYWANIE OBRAZU\n--------------------------------\n");
+    printf("Obrazów w pamięci: %d\n", ile);
+    printf("1 - Dodaj obraz\n"
+           "0 - Wyjdź\n");
+}
+
 void ustaw_kodowanie()
 {
 #ifdef WIN32
@@ -12,8 +20,26 @@ void ustaw_kodowanie()
 #endif
 }
 
-void wiadomosc_powitalna(element *lista)
+element * wiadomosc_powitalna(element *lista)
 {
-    printf("ODCZYTYWANIE OBRAZU\n--------------------------------\n");
-    odczytaj_plik(lista);
+    tekst_powitalny(size(lista));
+    int c;
+
+    while(c = getchar())
+    {
+        switch(c)
+        {
+        case '1':
+            if(_DEBUG) printf("Wybrano %c\n",c);
+            lista = odczytaj_plik(lista);
+            break;
+        case '0':
+            if(_DEBUG) printf("Wybrano %c\n",c);
+            printf("Dziękuję za skorzystanie z programu!\nMarcin Twardak\n");
+            return lista;
+        default:
+            tekst_powitalny(size(lista));
+            break;
+        }
+    }
 }

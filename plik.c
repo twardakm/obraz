@@ -48,11 +48,11 @@ int odczytaj_dane(FILE *plik, obraz *img)
     return READ_DATA_OK;
 }
 
-int odczytaj_plik(element *lista)
+element * odczytaj_plik(element *lista)
 {
     char *nazwa_pliku = (char *)malloc(sizeof(char) * MAX_FILE_NAME);
     FILE *plik;
-    printf("Podaj nazwę pliku (maksymalnie %d znaków:)\n", MAX_FILE_NAME);
+    printf("Podaj nazwę pliku (maksymalnie %d znaków):\n", MAX_FILE_NAME);
     scanf("%s", nazwa_pliku);
     if (_DEBUG) printf ("Nazwa pliku: %s\n", nazwa_pliku);
 
@@ -61,7 +61,7 @@ int odczytaj_plik(element *lista)
     if((plik = fopen(nazwa_pliku, "r")) == NULL)
     {
         perror("Nie udało się otworzyć podanego pliku\n");
-        return FILE_OPEN_ERR;
+        return lista;
     }
     else
         printf("OK\n");
@@ -80,7 +80,7 @@ int odczytaj_plik(element *lista)
         fclose(plik);
         free(nazwa_pliku);
         if(_DEBUG) printf("Błąd %d\n", err);
-        return err;
+        return lista;
     }
     if((err = odczytaj_wielkosc_obrazka(plik, temp->img)) != SIZE_OK)
     {
@@ -88,7 +88,7 @@ int odczytaj_plik(element *lista)
         fclose(plik);
         free(nazwa_pliku);
         if(_DEBUG) printf("Błąd %d\n", err);
-        return err;
+        return lista;
     }
     if((err = zarezerwuj_pamiec_dane(temp->img)) != MALLOC_OK)
     {
@@ -96,7 +96,7 @@ int odczytaj_plik(element *lista)
         fclose(plik);
         free(nazwa_pliku);
         if(_DEBUG) printf("Błąd %d\n", err);
-        return err;
+        return lista;
     }
     if((err = odczytaj_dane(plik, temp->img)) != READ_DATA_OK)
     {
@@ -104,11 +104,15 @@ int odczytaj_plik(element *lista)
         fclose(plik);
         free(nazwa_pliku);
         if(_DEBUG) printf("Błąd %d\n", err);
-        return err;
+        return lista;
     }
+
+    lista = push(lista,temp);
 
     fclose(plik);
     free(nazwa_pliku);
+
+    return lista;
 }
 
 int odczytaj_rodzaj_obrazka(FILE *plik, obraz *img)

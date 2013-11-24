@@ -9,8 +9,8 @@ typedef struct element
     obraz *img;
 }element;
 
-element * push(element * first, element * newone);
-void wyswietl(element * first);
 element * clear(element *first);
+element * push(element * first, element * newone);
+int size(element *first);
 
 #endif // LISTA_H

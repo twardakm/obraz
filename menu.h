@@ -3,7 +3,8 @@
 
 #include "lista.h"
 
+void tekst_powitalny(int ile);
 void ustaw_kodowanie();
-void wiadomosc_powitalna(element *lista);
+element * wiadomosc_powitalna(element *lista);
 
 #endif // MENU_H
