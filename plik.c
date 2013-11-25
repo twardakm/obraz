@@ -209,8 +209,11 @@ int sprawdz_czy_komentarz(FILE *plik)
 
 int wyswietl_pliki()
 {
-#ifndef WIN32
+#ifdef WIN32
+    FILE *ls = _popen("dir /b *.pgm", "r");
+#else
     FILE *ls = popen("ls *.pgm", "r");
+#endif
     if (ls == NULL)
     {
         perror ("Nie odnaleziono polecenia ls, wpisz nazwę pliku z pamięci\n");
@@ -225,5 +228,9 @@ int wyswietl_pliki()
         fgets(temp, MAX_FILE_NAME, ls);
     } while(!feof(ls));
     free(temp);
+#ifdef WIN32
+    _pclose(ls);
+#else
+    pclose(ls);
 #endif
 }
