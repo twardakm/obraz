@@ -45,15 +45,23 @@ int odczytaj_dane(FILE *plik, obraz *img)
             printf("\n");
         }
     }
+    printf("Odczytywanie obrazu... OK");
     return READ_DATA_OK;
 }
 
 element * odczytaj_plik(element *lista)
 {
-    char *nazwa_pliku = (char *)malloc(sizeof(char) * MAX_FILE_NAME);
+    char *nazwa_pliku = (char *)malloc(sizeof(char) * MAX_FILE_NAME + 1);
     FILE *plik;
+    wyswietl_pliki(); //wyświetlanie dostępnych plików
     printf("Podaj nazwę pliku (maksymalnie %d znaków):\n", MAX_FILE_NAME);
-    scanf("%s", nazwa_pliku);
+    //konieczne żeby odczytywać całą linię
+    //---------
+    while(getchar() != '\n');
+    fgets(nazwa_pliku, MAX_FILE_NAME, stdin);
+    strtok(nazwa_pliku, "\n");
+    //---------
+
     if (_DEBUG) printf ("Nazwa pliku: %s\n", nazwa_pliku);
 
     printf("Otwieranie pliku... %s ", nazwa_pliku);
@@ -197,4 +205,25 @@ int sprawdz_czy_komentarz(FILE *plik)
         printf("Błąd odczytu z pliku\n");
         return COMMENT_ERR;
     }
+}
+
+int wyswietl_pliki()
+{
+#ifndef WIN32
+    FILE *ls = popen("ls *.pgm", "r");
+    if (ls == NULL)
+    {
+        perror ("Nie odnaleziono polecenia ls, wpisz nazwę pliku z pamięci\n");
+        return LS_NOT_FOUND;
+    }
+    char * temp = (char *)malloc(sizeof(char) * MAX_FILE_NAME + 1);
+    temp[0] = '\0';
+    printf("Pliki do wyboru w tym folderze:\n");
+    do
+    {
+        printf("%s", temp);
+        fgets(temp, MAX_FILE_NAME, ls);
+    } while(!feof(ls));
+    free(temp);
+#endif
 }

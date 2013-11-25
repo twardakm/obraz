@@ -7,7 +7,7 @@
 
 void tekst_powitalny(int ile)
 {
-    printf("ODCZYTYWANIE OBRAZU\n--------------------------------\n");
+    printf("\nODCZYTYWANIE OBRAZU\n--------------------------------\n");
     printf("Obrazów w pamięci: %d\n", ile);
     printf("1 - Dodaj obraz\n"
            "0 - Wyjdź\n");
