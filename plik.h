@@ -12,5 +12,6 @@ element *odczytaj_plik(element *lista);
 int odczytaj_rodzaj_obrazka(FILE *plik, obraz *img);
 int odczytaj_wielkosc_obrazka(FILE *plik, obraz *img);
 int sprawdz_czy_komentarz(FILE *plik);
+int wyswietl_pliki();
 
 #endif // PLIK_H

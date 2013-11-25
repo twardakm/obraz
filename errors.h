@@ -16,6 +16,9 @@
 #define ART_FIRST 40
 #define ART_NUMBER 41
 
+#define LS_OK 0
+#define LS_NOT_FOUND 50
+
 #define READ_DATA_OK 0
 
 #define MALLOC_ERR 10
