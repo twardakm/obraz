@@ -21,7 +21,7 @@ element * position(element *first, int n)
         printf("Nie ma tylu elementów wczytanych do tablicy\n");
         return NULL;
     }
-    else if(n <= 0)
+    else if(n < 0)
     {
         printf("Niepoprawna liczba\n");
         return NULL;

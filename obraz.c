@@ -3,6 +3,24 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+void wyswietl_obraz(obraz *img)
+{
+    if (_DEBUG) printf("Wyswietlanie obrazu: %s\n", img->nazwa_pliku);
+    int wiersz, kolumna;
+
+    for (wiersz = 0; wiersz < img->height; wiersz++)
+    {
+        for (kolumna = 0; kolumna < img->width; kolumna++)
+        {
+            if (img->dane[wiersz][kolumna] == 0)
+                printf("  ");
+            else
+                printf("%c ", 35);
+        }
+        printf("\n");
+    }
+}
+
 int zarezerwuj_pamiec_dane(obraz *img)
 {
     int i;

@@ -8,6 +8,7 @@
 #define MAX_FILE_NAME 20
 
 int odczytaj_dane(FILE *plik, obraz *img);
+int odczytaj_maksymalny_kolor(FILE *plik, obraz *img);
 element *odczytaj_plik(element *lista);
 int odczytaj_rodzaj_obrazka(FILE *plik, obraz *img);
 int odczytaj_wielkosc_obrazka(FILE *plik, obraz *img);

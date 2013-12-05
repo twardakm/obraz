@@ -7,9 +7,11 @@ typedef struct obraz
     int rodzaj; //P1, P2....
     int width;
     int height;
+    int color; //maksymalna wartość składowa koloru
     int **dane;
 } obraz;
 
+void wyswietl_obraz(obraz *img);
 int zarezerwuj_pamiec_dane(obraz *img);
 int zwolnij_pamiec_obraz(obraz *img);
 

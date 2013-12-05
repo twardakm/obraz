@@ -1,9 +1,12 @@
 #ifndef ERRORS_H
 #define ERRORS_H
 
+#define FILE_READ_OK 0
 #define FILE_OPEN_ERR 1
 #define FILE_READ_ERR 2
-#define FILE_READ_OK 0
+
+#define MALLOC_OK 0
+#define MALLOC_ERR 10
 
 #define COMMENT_OK 0
 #define COMMENT_ERR 20
@@ -21,9 +24,9 @@
 
 #define READ_DATA_OK 0
 
-#define MALLOC_ERR 10
-#define MALLOC_OK 0
-
 #define FREE_MEM_OK 0
+
+#define COLOR_OK 0
+#define COLOR_ERR 60
 
 #endif // ERRORS_H

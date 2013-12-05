@@ -49,6 +49,24 @@ int odczytaj_dane(FILE *plik, obraz *img)
     return READ_DATA_OK;
 }
 
+int odczytaj_maksymalny_kolor(FILE *plik, obraz *img)
+{
+    int err;
+    if ((err = sprawdz_czy_komentarz(plik)) != COMMENT_OK)
+    {
+        if(_DEBUG) printf("Komentarz err: %d\n", err);
+        return err;
+    }
+    fscanf(plik, "%d", &img->color);
+    if (img->color <= 0)
+    {
+        printf("Błędny nagłówek pliku!\n");
+        if (_DEBUG) printf("Odczytano: %d, err: %d\n", img->color, COLOR_ERR);
+        return COLOR_ERR;
+    }
+    return COLOR_OK;
+}
+
 element * odczytaj_plik(element *lista)
 {
     char *nazwa_pliku = (char *)malloc(sizeof(char) * MAX_FILE_NAME + 1);
@@ -91,6 +109,15 @@ element * odczytaj_plik(element *lista)
         return lista;
     }
     if((err = odczytaj_wielkosc_obrazka(plik, temp->img)) != SIZE_OK)
+    {
+        printf("Błąd odczytu z pliku\n");
+        fclose(plik);
+        free(nazwa_pliku);
+        if(_DEBUG) printf("Błąd %d\n", err);
+        return lista;
+    }
+    if(temp->img->rodzaj == 2)
+        if((err = odczytaj_maksymalny_kolor(plik, temp->img)) != COLOR_OK)
     {
         printf("Błąd odczytu z pliku\n");
         fclose(plik);

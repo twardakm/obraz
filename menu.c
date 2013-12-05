@@ -56,7 +56,8 @@ obraz * wybierz_obraz(element *lista)
     printf("Wybierz, który obraz chcesz zmienić:\n"
            "Ilość wczytanych obrazów: %d\n", ile);
     scanf("%d", &n);
-    position(lista, n - 1);
+    element * temp = position(lista, n - 1);
+    wyswietl_obraz(temp->img);
 
-    return NULL;
+    return temp->img;
 }
