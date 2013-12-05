@@ -10,6 +10,7 @@ typedef struct element
 }element;
 
 element * clear(element *first);
+element * position(element *first, int n);
 element * push(element * first, element * newone);
 int size(element *first);
 
