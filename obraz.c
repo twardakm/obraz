@@ -5,7 +5,13 @@
 
 void wyswietl_obraz(obraz *img)
 {
-    if (_DEBUG) printf("Wyswietlanie obrazu: %s\n", img->nazwa_pliku);
+    if (img == NULL)
+        return;
+    printf("\n---------------\nWyswietlanie obrazu: %s\n---------------\n"
+           "Rodzaj: P%d\tWysokość: %d\tSzerokość: %d\n"
+           "Maksymalna wartość składowa koloru: %d\n---------------\n",
+           img->nazwa_pliku, img->rodzaj, img->height, img->width, img->color);
+
     int wiersz, kolumna;
 
     for (wiersz = 0; wiersz < img->height; wiersz++)

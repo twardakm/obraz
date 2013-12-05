@@ -36,7 +36,7 @@ element * wiadomosc_powitalna(element *lista)
             break;
         case '2':
             if (_DEBUG) printf("Wybrano %c\n", c);
-            wybierz_obraz(lista);
+            wyswietl_obraz(wybierz_obraz(lista));
             break;
         case '0':
             if(_DEBUG) printf("Wybrano %c\n",c);
@@ -57,7 +57,8 @@ obraz * wybierz_obraz(element *lista)
            "Ilość wczytanych obrazów: %d\n", ile);
     scanf("%d", &n);
     element * temp = position(lista, n - 1);
-    wyswietl_obraz(temp->img);
+    if (temp == NULL)
+        return NULL;
 
     return temp->img;
 }
