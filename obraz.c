@@ -12,18 +12,21 @@ void wyswietl_obraz(obraz *img)
            "Maksymalna wartość składowa koloru: %d\n---------------\n",
            img->nazwa_pliku, img->rodzaj, img->height, img->width, img->color);
 
-    int wiersz, kolumna;
-
-    for (wiersz = 0; wiersz < img->height; wiersz++)
+    if (img->rodzaj == 1)
     {
-        for (kolumna = 0; kolumna < img->width; kolumna++)
+        int wiersz, kolumna;
+
+        for (wiersz = 0; wiersz < img->height; wiersz++)
         {
-            if (img->dane[wiersz][kolumna] == 0)
-                printf("  ");
-            else
-                printf("%c ", 35);
+            for (kolumna = 0; kolumna < img->width; kolumna++)
+            {
+                if (img->dane[wiersz][kolumna] == 0)
+                    printf("  ");
+                else
+                    printf("%c ", 35);
+            }
+            printf("\n");
         }
-        printf("\n");
     }
 }
 

@@ -6,7 +6,7 @@
 
 int odczytaj_dane(FILE *plik, obraz *img)
 {
-    int wiersz, kolumna, err;
+    int wiersz, kolumna, err, i;
     char c;
 
     if ((err = sprawdz_czy_komentarz(plik)) != COMMENT_OK)
@@ -16,16 +16,11 @@ int odczytaj_dane(FILE *plik, obraz *img)
     }
 
     //teraz dwie pętle do odczytu dwuwymiarowej tablicy
-    for (wiersz = 0; wiersz < img->height; wiersz++)
+    for (wiersz = 0, i=0; wiersz < img->height; wiersz++, i++)
     {
-        for(kolumna = 0; kolumna < img->width; kolumna++)
+        for(kolumna = 0; kolumna < img->width; kolumna++, i++)
             fscanf(plik, "%d", &img->dane[wiersz][kolumna]);
 
-        /*WAŻNE, musi odczytywać znak końca poprzedniej linii*/
-        c = fgetc(plik);
-        while(c != '\n' && c != EOF)
-            c = fgetc(plik);
-        /*----------*/
         // po każdej linii sprawdzenie czy komentarz
         if (c != EOF)
         {
@@ -45,6 +40,7 @@ int odczytaj_dane(FILE *plik, obraz *img)
             printf("\n");
         }
     }
+    if (_DEBUG) printf("Tyle razy odczytywano: %d\n", i);
     printf("Odczytywanie obrazu... OK");
     return READ_DATA_OK;
 }
