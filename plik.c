@@ -263,6 +263,8 @@ int zapisz_plik(obraz *img)
 {
     FILE *plik;
     char ch;
+    int width, height;
+    int n;
 
     printf("Czy chcesz nadpisać istniejący plik? \'T\', \'N\'\t");
     ch = getchar();
@@ -288,6 +290,24 @@ int zapisz_plik(obraz *img)
     }
 
     printf("Zapisywanie do pliku... ");
+
+    fprintf(plik, "P%d\n%d %d\n", img->rodzaj, img->width, img->height);
+    if(img->rodzaj == 2)
+        fprintf (plik, "%d\n", img->color);
+
+    for (height = 0, n=1; height < img->height; height++)
+    {
+        for (width = 0; width < img->width; width++)
+        {
+            fprintf(plik, "%d ", img->dane[height][width]);
+            if (n % 10 == 0)
+            {
+                fprintf(plik, "\n");
+                n = 1;
+            }
+        }
+        n = 1;
+    }
 
     return SAVE_OK;
 }
