@@ -20,6 +20,14 @@ void inwersja(obraz *img)
             }
         }
     }
+    else
+    {
+        for(height = 0; height < img->height; height++)
+        {
+            for (width = 0; width < img->width; width++)
+                img->dane[height][width] = img->color - img->dane[height][width];
+        }
+    }
 
     img->czy_zmieniane = 1;
     return;

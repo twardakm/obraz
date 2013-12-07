@@ -106,7 +106,7 @@ element * odczytaj_plik(element *lista)
     element * temp = (element * )malloc(sizeof(element));
     temp->next = NULL;
     temp->img = (obraz *)malloc(sizeof(obraz));
-    temp->img->nazwa_pliku = (char *)malloc(sizeof(char) * strlen(nazwa_pliku));
+    temp->img->nazwa_pliku = (char *)malloc(sizeof(char) * MAX_FILE_NAME + 1);
     strcpy(temp->img->nazwa_pliku, nazwa_pliku);
 
     if((err = odczytaj_rodzaj_obrazka(plik, temp->img)) != ART_OK)

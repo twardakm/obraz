@@ -5,7 +5,7 @@
 #include "obraz.h"
 #include <stdio.h>
 
-#define MAX_FILE_NAME 20
+#define MAX_FILE_NAME 30
 
 int czy_zapisac();
 int odczytaj_dane(FILE *plik, obraz *img);
