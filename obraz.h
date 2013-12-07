@@ -12,6 +12,7 @@ typedef struct obraz
     int **dane;
 } obraz;
 
+void inwersja(obraz *img);
 void wyswietl_obraz(obraz *img);
 int zarezerwuj_pamiec_dane(obraz *img);
 int zwolnij_pamiec_obraz(obraz *img);

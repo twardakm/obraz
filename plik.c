@@ -150,7 +150,7 @@ element * odczytaj_plik(element *lista)
         if(_DEBUG) printf("Błąd %d\n", err);
         return lista;
     }
-    temp->img->czy_zmieniane = 1;
+    temp->img->czy_zmieniane = 0;
 
     lista = push(lista,temp);
 
@@ -320,6 +320,10 @@ int zapisz_plik(obraz *img)
         n = 1;
         fprintf(plik, "\n");
     }
+
+    fclose(plik);
+
+    img->czy_zmieniane = 0;
     printf("OK\n");
 
     return SAVE_OK;

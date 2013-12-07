@@ -12,6 +12,7 @@ void tekst_powitalny(int ile)
     printf("Obrazów w pamięci: %d\n", ile);
     printf("1 - Dodaj obraz\n"
            "2 - Wyswietl obraz\n"
+           "31 - Inwersja"
            "0 - Wyjdź\n");
 }
 
@@ -38,6 +39,10 @@ element * wiadomosc_powitalna(element *lista)
         case '2':
             if (_DEBUG) printf("Wybrano %c\n", c);
             wyswietl_obraz(wybierz_obraz(lista));
+            break;
+        case '3':
+            if (_DEBUG) printf("Wybrano %c\n", c);
+            inwersja(wybierz_obraz(lista));
             break;
         case '0':
             if(_DEBUG) printf("Wybrano %c\n",c);

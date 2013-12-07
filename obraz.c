@@ -3,6 +3,28 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+void inwersja(obraz *img)
+{
+    int width, height;
+
+    if (img->rodzaj == 1)
+    {
+        for(height = 0; height < img->height; height++)
+        {
+            for (width = 0; width < img->width; width++)
+            {
+                if (img->dane[height][width])
+                    img->dane[height][width] = 0;
+                else
+                    img->dane[height][width] = 1;
+            }
+        }
+    }
+
+    img->czy_zmieniane = 1;
+    return;
+}
+
 void wyswietl_obraz(obraz *img)
 {
     if (img == NULL)
