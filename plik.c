@@ -137,6 +137,7 @@ element * odczytaj_plik(element *lista)
         if(_DEBUG) printf("Błąd %d\n", err);
         return lista;
     }
+    temp->img->czy_zmieniane = 0;
 
     lista = push(lista,temp);
 
@@ -244,7 +245,7 @@ int wyswietl_pliki()
     }
     char * temp = (char *)malloc(sizeof(char) * MAX_FILE_NAME + 1);
     temp[0] = '\0';
-    printf("Pliki do wyboru w tym folderze:\n");
+    printf("Pliki pgm w tym folderze:\n");
     do
     {
         printf("%s", temp);
@@ -256,4 +257,37 @@ int wyswietl_pliki()
 #else
     pclose(ls);
 #endif
+}
+
+int zapisz_plik(obraz *img)
+{
+    FILE *plik;
+    char ch;
+
+    printf("Czy chcesz nadpisać istniejący plik? \'T\', \'N\'\t");
+    ch = getchar();
+    if(ch == 'N' || ch == 'n')
+    {
+        wyswietl_pliki();
+        printf("Podaj nazwę nowego pliku: ");
+
+        //konieczne żeby odczytywać całą linię
+        //---------
+        while(getchar() != '\n');
+        fgets(img->nazwa_pliku, MAX_FILE_NAME, stdin);
+        strtok(img->nazwa_pliku, "\n");
+        //---------
+
+        if (_DEBUG) printf("Odczytano: %s\n", img->nazwa_pliku);
+    }
+
+    if ((plik = fopen(img->nazwa_pliku, "w")) == NULL)
+    {
+        perror("Nie udało się otworzyć podanego pliku\n");
+        return FILE_OPEN_ERR;
+    }
+
+    printf("Zapisywanie do pliku... ");
+
+    return SAVE_OK;
 }

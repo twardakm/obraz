@@ -29,4 +29,8 @@
 #define COLOR_OK 0
 #define COLOR_ERR 60
 
+#define END_OK 0
+
+#define SAVE_OK 0
+
 #endif // ERRORS_H

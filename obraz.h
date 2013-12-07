@@ -5,6 +5,7 @@ typedef struct obraz
 {
     char *nazwa_pliku;
     int rodzaj; //P1, P2....
+    int czy_zmieniane;
     int width;
     int height;
     int color; //maksymalna wartość składowa koloru

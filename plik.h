@@ -14,5 +14,6 @@ int odczytaj_rodzaj_obrazka(FILE *plik, obraz *img);
 int odczytaj_wielkosc_obrazka(FILE *plik, obraz *img);
 int sprawdz_czy_komentarz(FILE *plik);
 int wyswietl_pliki();
+int zapisz_plik(obraz *img);
 
 #endif // PLIK_H

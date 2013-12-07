@@ -2,6 +2,7 @@
 #include "obraz.h"
 #include "plik.h"
 #include "lista.h"
+#include "errors.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -61,4 +62,30 @@ obraz * wybierz_obraz(element *lista)
         return NULL;
 
     return temp->img;
+}
+
+int zakoncz_program(element *lista)
+{
+    int i, err;
+    int ile = size(lista);
+    char temp;
+    for (i = 0; i < ile; i++)
+    {
+        if (lista->img->czy_zmieniane)
+        {
+            printf("Plik %s został zmieniony\n"
+                   "Czy chcesz go zapisać? (\'T\', \'N\'\t");
+            temp = getchar();
+            if (temp == 'T' || temp == 't' || temp == 'y' || temp == 'Y')
+            {
+                if((err = zapisz_plik(lista->img)) != SAVE_OK)
+                {
+                    printf("Nie udało się zapisać pliku %s\n", lista->img->nazwa_pliku);
+                    if (_DEBUG) printf("Bład: %d\n", err);
+                }
+            }
+        }
+        lista = lista->next;
+    }
+    return END_OK;
 }
