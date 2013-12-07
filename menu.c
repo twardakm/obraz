@@ -41,8 +41,18 @@ element * wiadomosc_powitalna(element *lista)
             wyswietl_obraz(wybierz_obraz(lista));
             break;
         case '3':
-            if (_DEBUG) printf("Wybrano %c\n", c);
-            inwersja(wybierz_obraz(lista));
+            if (_DEBUG) printf("Wybrano %c", c);
+            c = getchar();
+            switch(c)
+            {
+            case '1': //inwersja
+                if (_DEBUG) printf("%c\n", c);
+                inwersja(wybierz_obraz(lista));
+                break;
+            default:
+                printf("Niepoprawny wybór\n");
+                break;
+            }
             break;
         case '0':
             if(_DEBUG) printf("Wybrano %c\n",c);
@@ -81,7 +91,7 @@ int zakoncz_program(element *lista)
         if (lista->img->czy_zmieniane)
         {
             printf("Plik %s został zmieniony\n"
-                   "Czy chcesz go zapisać? (\'T\', \'N\')",
+                   "Czy chcesz go zapisać? (\'T\', \'N\') ",
                    lista->img->nazwa_pliku);
             if (czy_zapisac())
             {
