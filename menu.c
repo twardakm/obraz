@@ -41,6 +41,7 @@ element * wiadomosc_powitalna(element *lista)
             break;
         case '0':
             if(_DEBUG) printf("Wybrano %c\n",c);
+            zakoncz_program(lista);
             printf("Dziękuję za skorzystanie z programu!\nMarcin Twardak\n");
             return lista;
         default:
@@ -68,15 +69,14 @@ int zakoncz_program(element *lista)
 {
     int i, err;
     int ile = size(lista);
-    char temp;
     for (i = 0; i < ile; i++)
     {
         if (lista->img->czy_zmieniane)
         {
             printf("Plik %s został zmieniony\n"
-                   "Czy chcesz go zapisać? (\'T\', \'N\'\t");
-            temp = getchar();
-            if (temp == 'T' || temp == 't' || temp == 'y' || temp == 'Y')
+                   "Czy chcesz go zapisać? (\'T\', \'N\')",
+                   lista->img->nazwa_pliku);
+            if (czy_zapisac())
             {
                 if((err = zapisz_plik(lista->img)) != SAVE_OK)
                 {

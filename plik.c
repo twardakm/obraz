@@ -4,6 +4,19 @@
 #include <stdio.h>
 #include <string.h>
 
+int czy_zapisac()
+{
+    char ch;
+    ch = getchar();
+
+    if (ch == 'T' || ch == 't' || ch == 'Y' || ch == 'y')
+        return 1;
+    else if (ch == 'N' || ch == 'n')
+        return 0;
+    else
+        czy_zapisac();
+}
+
 int odczytaj_dane(FILE *plik, obraz *img)
 {
     int wiersz, kolumna, err, i;
@@ -137,7 +150,7 @@ element * odczytaj_plik(element *lista)
         if(_DEBUG) printf("Błąd %d\n", err);
         return lista;
     }
-    temp->img->czy_zmieniane = 0;
+    temp->img->czy_zmieniane = 1;
 
     lista = push(lista,temp);
 
@@ -262,13 +275,11 @@ int wyswietl_pliki()
 int zapisz_plik(obraz *img)
 {
     FILE *plik;
-    char ch;
     int width, height;
     int n;
 
-    printf("Czy chcesz nadpisać istniejący plik? \'T\', \'N\'\t");
-    ch = getchar();
-    if(ch == 'N' || ch == 'n')
+    printf("Czy chcesz nadpisać istniejący plik? (\'T\', \'N\') ");
+    if(!czy_zapisac())
     {
         wyswietl_pliki();
         printf("Podaj nazwę nowego pliku: ");
@@ -297,7 +308,7 @@ int zapisz_plik(obraz *img)
 
     for (height = 0, n=1; height < img->height; height++)
     {
-        for (width = 0; width < img->width; width++)
+        for (width = 0; width < img->width; width++, n++)
         {
             fprintf(plik, "%d ", img->dane[height][width]);
             if (n % 10 == 0)
@@ -307,7 +318,9 @@ int zapisz_plik(obraz *img)
             }
         }
         n = 1;
+        fprintf(plik, "\n");
     }
+    printf("OK\n");
 
     return SAVE_OK;
 }
