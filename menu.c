@@ -69,6 +69,11 @@ element * wiadomosc_powitalna(element *lista)
 obraz * wybierz_obraz(element *lista)
 {
     int ile = size(lista);
+    if (!ile)
+    {
+        printf("Nie wczytano dotąd żadnego obrazu!\n");
+        return NULL;
+    }
     int n;
     while(getchar() != '\n');
     printf("Wybierz, który obraz chcesz zmienić:\n"

@@ -6,6 +6,8 @@
 
 void inwersja(obraz *img)
 {
+    if (img == NULL)
+        return;
     int width, height;
 
     if (img->rodzaj == 1)
