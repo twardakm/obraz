@@ -55,3 +55,14 @@ int size(element *first)
     }
     return i;
 }
+
+void wyswietl_wczytane_obrazy(element *first)
+{
+    int i = 1;
+    while (first != NULL)
+    {
+        printf("%d - %s\n",i, first->img->nazwa_pliku);
+        first = first->next;
+        i++;
+    }
+}

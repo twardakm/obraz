@@ -1,4 +1,5 @@
 #include "obraz.h"
+#include "lista.h"
 #include "errors.h"
 #include <stdlib.h>
 #include <stdio.h>

@@ -12,7 +12,7 @@ void tekst_powitalny(int ile)
     printf("Obrazów w pamięci: %d\n", ile);
     printf("1 - Dodaj obraz\n"
            "2 - Wyswietl obraz\n"
-           "31 - Inwersja"
+           "31 - Inwersja\n"
            "0 - Wyjdź\n");
 }
 
@@ -60,8 +60,10 @@ obraz * wybierz_obraz(element *lista)
 {
     int ile = size(lista);
     int n;
+    while(getchar() != '\n');
     printf("Wybierz, który obraz chcesz zmienić:\n"
            "Ilość wczytanych obrazów: %d\n", ile);
+    wyswietl_wczytane_obrazy(lista);
     scanf("%d", &n);
     element * temp = position(lista, n - 1);
     if (temp == NULL)
