@@ -36,6 +36,37 @@ void inwersja(obraz *img)
     return;
 }
 
+void obrot_prawo(obraz *img)
+{
+    int i, j;
+    int **dane;
+    if (_DEBUG) printf("Obrót w prawo\n");
+
+    dane = (int **)malloc(sizeof(int *) * img->width);
+    for (i = 0; i < img->width; i++)
+        dane[i] = (int *)malloc(sizeof(int) * img->height);
+    if (_DEBUG) printf("Zaalokowano pamięć\n");
+
+    for (j = 0; j < img->width; j++)
+    {
+        for (i = img->height - 1; i >= 0; i--)
+            dane[j][i] = img->dane[i][j];
+    }
+    if(_DEBUG) printf("zwalnianie pamięci\n");
+    for(i = 0; i < img->height; i++)
+        free(img->dane[i]);
+    free(img->dane);
+
+    img->dane = dane; //przypisanie adresu
+    i = img->width;
+    j = img->height;
+    img->height = i;
+    img->width = j;
+
+    img->czy_zmieniane = 1;
+    return;
+}
+
 void wyswietl_obraz(obraz *img)
 {
     if (img == NULL)

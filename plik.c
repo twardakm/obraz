@@ -44,15 +44,6 @@ int odczytaj_dane(FILE *plik, obraz *img)
             }
         }
     }
-    if (_DEBUG) //wyświetlenie tego co odczytane
-    {
-        for (wiersz = 0; wiersz < img->height; wiersz++)
-        {
-            for (kolumna = 0; kolumna < img->width; kolumna++)
-                printf("%d ", img->dane[wiersz][kolumna]);
-            printf("\n");
-        }
-    }
     if (_DEBUG) printf("Tyle razy odczytywano: %d\n", i);
     printf("Odczytywanie obrazu... OK");
     return READ_DATA_OK;
