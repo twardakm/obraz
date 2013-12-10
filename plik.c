@@ -4,9 +4,22 @@
 #include <stdio.h>
 #include <string.h>
 
+int czy_zapisac()
+{
+    char ch;
+    ch = getchar();
+
+    if (ch == 'T' || ch == 't' || ch == 'Y' || ch == 'y')
+        return 1;
+    else if (ch == 'N' || ch == 'n')
+        return 0;
+    else
+        czy_zapisac();
+}
+
 int odczytaj_dane(FILE *plik, obraz *img)
 {
-    int wiersz, kolumna, err;
+    int wiersz, kolumna, err, i;
     char c;
 
     if ((err = sprawdz_czy_komentarz(plik)) != COMMENT_OK)
@@ -16,16 +29,11 @@ int odczytaj_dane(FILE *plik, obraz *img)
     }
 
     //teraz dwie pętle do odczytu dwuwymiarowej tablicy
-    for (wiersz = 0; wiersz < img->height; wiersz++)
+    for (wiersz = 0, i=0; wiersz < img->height; wiersz++, i++)
     {
-        for(kolumna = 0; kolumna < img->width; kolumna++)
+        for(kolumna = 0; kolumna < img->width; kolumna++, i++)
             fscanf(plik, "%d", &img->dane[wiersz][kolumna]);
 
-        /*WAŻNE, musi odczytywać znak końca poprzedniej linii*/
-        c = fgetc(plik);
-        while(c != '\n' && c != EOF)
-            c = fgetc(plik);
-        /*----------*/
         // po każdej linii sprawdzenie czy komentarz
         if (c != EOF)
         {
@@ -45,8 +53,27 @@ int odczytaj_dane(FILE *plik, obraz *img)
             printf("\n");
         }
     }
+    if (_DEBUG) printf("Tyle razy odczytywano: %d\n", i);
     printf("Odczytywanie obrazu... OK");
     return READ_DATA_OK;
+}
+
+int odczytaj_maksymalny_kolor(FILE *plik, obraz *img)
+{
+    int err;
+    if ((err = sprawdz_czy_komentarz(plik)) != COMMENT_OK)
+    {
+        if(_DEBUG) printf("Komentarz err: %d\n", err);
+        return err;
+    }
+    fscanf(plik, "%d", &img->color);
+    if (img->color <= 0)
+    {
+        printf("Błędny nagłówek pliku!\n");
+        if (_DEBUG) printf("Odczytano: %d, err: %d\n", img->color, COLOR_ERR);
+        return COLOR_ERR;
+    }
+    return COLOR_OK;
 }
 
 element * odczytaj_plik(element *lista)
@@ -79,7 +106,7 @@ element * odczytaj_plik(element *lista)
     element * temp = (element * )malloc(sizeof(element));
     temp->next = NULL;
     temp->img = (obraz *)malloc(sizeof(obraz));
-    temp->img->nazwa_pliku = (char *)malloc(sizeof(char) * strlen(nazwa_pliku));
+    temp->img->nazwa_pliku = (char *)malloc(sizeof(char) * MAX_FILE_NAME + 1);
     strcpy(temp->img->nazwa_pliku, nazwa_pliku);
 
     if((err = odczytaj_rodzaj_obrazka(plik, temp->img)) != ART_OK)
@@ -91,6 +118,15 @@ element * odczytaj_plik(element *lista)
         return lista;
     }
     if((err = odczytaj_wielkosc_obrazka(plik, temp->img)) != SIZE_OK)
+    {
+        printf("Błąd odczytu z pliku\n");
+        fclose(plik);
+        free(nazwa_pliku);
+        if(_DEBUG) printf("Błąd %d\n", err);
+        return lista;
+    }
+    if(temp->img->rodzaj == 2)
+        if((err = odczytaj_maksymalny_kolor(plik, temp->img)) != COLOR_OK)
     {
         printf("Błąd odczytu z pliku\n");
         fclose(plik);
@@ -114,6 +150,7 @@ element * odczytaj_plik(element *lista)
         if(_DEBUG) printf("Błąd %d\n", err);
         return lista;
     }
+    temp->img->czy_zmieniane = 0;
 
     lista = push(lista,temp);
 
@@ -221,7 +258,7 @@ int wyswietl_pliki()
     }
     char * temp = (char *)malloc(sizeof(char) * MAX_FILE_NAME + 1);
     temp[0] = '\0';
-    printf("Pliki do wyboru w tym folderze:\n");
+    printf("Pliki pgm w tym folderze:\n");
     do
     {
         printf("%s", temp);
@@ -233,4 +270,61 @@ int wyswietl_pliki()
 #else
     pclose(ls);
 #endif
+}
+
+int zapisz_plik(obraz *img)
+{
+    FILE *plik;
+    int width, height;
+    int n;
+
+    printf("Czy chcesz nadpisać istniejący plik? (\'T\', \'N\') ");
+    if(!czy_zapisac())
+    {
+        wyswietl_pliki();
+        printf("Podaj nazwę nowego pliku: ");
+
+        //konieczne żeby odczytywać całą linię
+        //---------
+        while(getchar() != '\n');
+        fgets(img->nazwa_pliku, MAX_FILE_NAME, stdin);
+        strtok(img->nazwa_pliku, "\n");
+        //---------
+
+        if (_DEBUG) printf("Odczytano: %s\n", img->nazwa_pliku);
+    }
+
+    if ((plik = fopen(img->nazwa_pliku, "w")) == NULL)
+    {
+        perror("Nie udało się otworzyć podanego pliku\n");
+        return FILE_OPEN_ERR;
+    }
+
+    printf("Zapisywanie do pliku... ");
+
+    fprintf(plik, "P%d\n%d %d\n", img->rodzaj, img->width, img->height);
+    if(img->rodzaj == 2)
+        fprintf (plik, "%d\n", img->color);
+
+    for (height = 0, n=1; height < img->height; height++)
+    {
+        for (width = 0; width < img->width; width++, n++)
+        {
+            fprintf(plik, "%d ", img->dane[height][width]);
+            if (n % 10 == 0)
+            {
+                fprintf(plik, "\n");
+                n = 1;
+            }
+        }
+        n = 1;
+        fprintf(plik, "\n");
+    }
+
+    fclose(plik);
+
+    img->czy_zmieniane = 0;
+    printf("OK\n");
+
+    return SAVE_OK;
 }
