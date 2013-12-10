@@ -36,9 +36,15 @@ void inwersja(obraz *img)
     return;
 }
 
+void obrot_lewo(obraz *img)
+{
+
+    return;
+}
+
 void obrot_prawo(obraz *img)
 {
-    int i, j;
+    int i, j, k;
     int **dane;
     if (_DEBUG) printf("Obrót w prawo\n");
 
@@ -49,8 +55,8 @@ void obrot_prawo(obraz *img)
 
     for (j = 0; j < img->width; j++)
     {
-        for (i = img->height - 1; i >= 0; i--)
-            dane[j][i] = img->dane[i][j];
+        for (i = img->height - 1, k = 0; i >= 0; i--, k++)
+            dane[j][k] = img->dane[i][j];
     }
     if(_DEBUG) printf("zwalnianie pamięci\n");
     for(i = 0; i < img->height; i++)

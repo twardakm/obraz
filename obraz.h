@@ -13,6 +13,7 @@ typedef struct obraz
 } obraz;
 
 void inwersja(obraz *img);
+void obort_lewo(obraz *img);
 void obrot_prawo(obraz *img);
 void wyswietl_obraz(obraz *img);
 int zarezerwuj_pamiec_dane(obraz *img);
