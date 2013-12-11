@@ -36,8 +36,41 @@ void inwersja(obraz *img)
     return;
 }
 
+void obrot_180(obraz *img)
+{
+    if (img == NULL)
+        return;
+    int i,j,k,l;
+    int **dane;
+    if (_DEBUG) printf("Obrót o 180");
+
+    dane = (int **)malloc(sizeof(int *) * img->height);
+    for (i = 0; i < img->height; i++)
+        dane[i] = (int *)malloc(sizeof(int) * img->width);
+    if (_DEBUG) printf("Zaalokowano pamięć\n");
+
+    for (i = 0, j = img->height - 1; i<img->height; i++, j--)
+    {
+        for (k = 0, l = img->width-1; k < img->width; k++,l--)
+            dane[i][k] = img->dane[j][l];
+    }
+
+    if (_DEBUG) printf("zwalnianie pamięci\n");
+
+    for(i = 0; i < img->height; i++)
+        free(img->dane[i]);
+    free(img->dane);
+
+    img->dane = dane;
+
+    img->czy_zmieniane = 1;
+    return;
+}
+
 void obrot_lewo(obraz *img)
 {
+    if (img == NULL)
+        return;
     int i, j, k;
     int **dane;
     if (_DEBUG) printf("Obrót w prawo\n");
@@ -69,6 +102,8 @@ void obrot_lewo(obraz *img)
 
 void obrot_prawo(obraz *img)
 {
+    if (img == NULL)
+        return;
     int i, j, k;
     int **dane;
     if (_DEBUG) printf("Obrót w prawo\n");
@@ -136,6 +171,75 @@ int zarezerwuj_pamiec_dane(obraz *img)
         img->dane[i] = (int *)malloc(sizeof(int) * img->width);
     if(_DEBUG) printf("Zaalokowano x = %d\n", img->width);
     return MALLOC_OK;
+}
+
+void zmniejsz_obraz(obraz *img)
+{
+    if(img == NULL)
+        return;
+    int c = 0;
+    int width, height, i, j, **dane;
+    printf("Aktualne wymiary:\n"
+           "Szerokość:\t%d\n"
+           "Wysokość:\t%d\n"
+           "Podaj nowe rozmiary\n",
+           img->width, img->height);
+    do
+    {
+        printf("Szerokość: ");
+        scanf("%d", &width);
+    } while (width > img->width || width <= 0);
+    do
+    {
+        printf("Wysokość: ");
+        scanf("%d", &height);
+    } while (height > img->height || height <= 0);
+
+    dane = (int **)malloc(sizeof(int) * height);
+    for(i = 0; i < height; i++)
+        dane[i] = (int *)malloc(sizeof(int) * width);
+    if(_DEBUG) printf("Zaalokowano pamięć\n");
+
+    while (c != -1)
+    {
+        printf("Wybierz w jaki sposób zmniejszyć obraz:\n"
+               "1 - Od lewego górnego rogu\n"
+               "2 - Od lewego dolnego rogu\n"
+               "3 - Od prawego górnego rogu\n"
+               "4 - Od prawego dolnego rogu\n"
+               "5 - Od środka\n"
+               "0 - Wyjdź\n");
+
+        while((c = getchar()) == '\n');
+        switch(c)
+        {
+        case ('1'):
+            if (_DEBUG) printf("Wybrano: %c\n", c);
+            for (i = 0; i < height; i++)
+            {
+                for (j = 0; j < width; j++)
+                    dane[i][j] = img->dane[i][j];
+            }
+            printf("Zmniejszanie obrazu... OK\n");
+            c = -1;
+            break;
+        default:
+            printf("Niepoprawny wybór\n");
+            break;
+        }
+    }
+    for(i = 0; i < img->height; i++)
+        free(img->dane[i]);
+    free(img->dane);
+
+    if(_DEBUG) printf("Zwolniono dane\n");
+
+    img->dane = dane;
+
+    img->width = width;
+    img->height = height;
+    img->czy_zmieniane = 1;
+    return;
 }
 
 int zwolnij_pamiec_obraz(obraz *img)

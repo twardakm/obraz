@@ -15,6 +15,8 @@ void tekst_powitalny(int ile)
            "31 - Inwersja\n"
            "41 - Obrót w prawo\n"
            "42 - Obrót w lewo\n"
+           "43 - Obrót o 180\n"
+           "44 - Zmniejsz obraz\n"
            "0 - Wyjdź\n");
 }
 
@@ -68,6 +70,14 @@ element * wiadomosc_powitalna(element *lista)
             case '2':
                 if (_DEBUG) printf("%c\n", c);
                 obrot_lewo(wybierz_obraz(lista));
+                break;
+            case '3':
+                if (_DEBUG) printf("%c\n", c);
+                obrot_180(wybierz_obraz(lista));
+                break;
+            case '4':
+                if (_DEBUG) printf("%c\n", c);
+                zmniejsz_obraz(wybierz_obraz(lista));
                 break;
             default:
                 printf("Niepoprawny wybór\n");

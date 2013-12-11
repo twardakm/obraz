@@ -28,7 +28,7 @@ element * position(element *first, int n)
     }
     for (n; n > 0; n--) first = first->next;
 
-    if(_DEBUG) printf("Wybrano: %s", first->img->nazwa_pliku);
+    if(_DEBUG) printf("Wybrano: %s\n", first->img->nazwa_pliku);
     return first;
 }
 
