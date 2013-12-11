@@ -178,7 +178,7 @@ void zmniejsz_obraz(obraz *img)
     if(img == NULL)
         return;
     int c = 0;
-    int width, height, i, j, **dane;
+    int width, height, i, j, k, l, **dane;
     printf("Aktualne wymiary:\n"
            "Szerokość:\t%d\n"
            "Wysokość:\t%d\n"
@@ -216,11 +216,36 @@ void zmniejsz_obraz(obraz *img)
         case ('1'):
             if (_DEBUG) printf("Wybrano: %c\n", c);
             for (i = 0; i < height; i++)
-            {
                 for (j = 0; j < width; j++)
                     dane[i][j] = img->dane[i][j];
-            }
-            printf("Zmniejszanie obrazu... OK\n");
+            c = -1;
+            break;
+        case ('2'):
+            if (_DEBUG) printf("Wybrano: %c\n", c);
+            for (i = img->height - height, k = 0; i < img->height; i++, k++)
+                for (j = 0; j < width; j++)
+                    dane[k][j] = img->dane[i][j];
+            c = -1;
+            break;
+        case ('3'):
+            if (_DEBUG) printf("Wybrano: %c\n", c);
+            for (i = 0; i < height; i++)
+                for (j = (img->width - width), k = 0; j < img->width; j++, k++)
+                    dane[i][k] = img->dane[i][j];
+            c = -1;
+            break;
+        case ('4'):
+            if (_DEBUG) printf("Wybrano: %c\n", c);
+            for (i = img->height - height, k = 0; i < img->height; i++, k++)
+                for (j = img->width - width, l = 0; j < img->width; j++, l++)
+                    dane[k][l] = img->dane[i][j];
+            c = -1;
+            break;
+        case ('5'):
+            if (_DEBUG) printf("Wybrano: %c\n", c);
+            for (i = (img->height/2 - height/2), k = 0; i < (img->height / 2 + height/2); i++, k++)
+                for (j = (img->width/2 - width/2), l = 0; j < (img->width / 2 + width/2); j++, l++)
+                    dane[k][l] = img->dane[i][j];
             c = -1;
             break;
         default:
@@ -228,6 +253,7 @@ void zmniejsz_obraz(obraz *img)
             break;
         }
     }
+    printf("Zmniejszanie obrazu... OK\n");
     for(i = 0; i < img->height; i++)
         free(img->dane[i]);
     free(img->dane);
