@@ -46,7 +46,7 @@ void kafelki(obraz *img)
         return;
     }
 
-    int r, i, j, k, l, suma, wsp;
+    int r, i, j, k, l, suma, wsp, sr;
 
     printf("Podaj wielkość kafelka: ");
     scanf("%d", &r);
@@ -68,7 +68,57 @@ void kafelki(obraz *img)
                     img->dane[k][l] = wsp;
             }
         }
+        //warunki brzegowe
+        wsp = 0;
+        suma = 0;
+        if ((j - r) < (img->width - 1))
+        {
+            for (k = (i - r); k < (i + r) && k < img->height; k++)
+            {
+                for (l = (j - r); l < img->width; l++)
+                {
+                    suma += img->dane[k][l];
+                    wsp++;
+                }
+            }
+            for (k = (i - r); k < (i + r) && k < img->height; k++)
+            {
+                for (l = (j - r); l < img->width; l++)
+                {
+                    sr = suma / wsp;
+                    img->dane[k][l] = sr;
+                }
+            }
+        }
     }
+    wsp = 0;
+    suma = 0;
+    i -= r;
+    if (i < img->height - 1)
+    {
+        for (j = r; j < img->width; j += (2*r + 1))
+        {
+            wsp = 0;
+            suma = 0;
+            for (k = i; k < img->height; k++)
+            {
+                for (l = (j - r); l < (j + r) && l < img->width; l++)
+                {
+                    suma += img->dane[k][l];
+                    wsp++;
+                }
+            }
+            sr = suma / wsp;
+            for (k = i; k < img->height; k++)
+            {
+                for (l = (j - r); l < (j + r) && l < img->width; l++)
+                {
+                    img->dane[k][l] = sr;
+                }
+            }
+        }
+    }
+    if (_DEBUG) printf("k: %d\tl: %d", k, l);
 
     img->czy_zmieniane = 1;
 
