@@ -107,7 +107,7 @@ element * wiadomosc_powitalna(element *lista)
             break;
         case '5':
             if (_DEBUG) printf("Wybrano %c", c);
-
+            zapisz_wszystkie_pliki(lista);
             break;
         case '6':
             if(_DEBUG) printf("Wybrano %c\n",c);
