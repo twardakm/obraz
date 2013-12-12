@@ -10,7 +10,8 @@ void tekst_powitalny(int ile)
 {
     printf("\nODCZYTYWANIE OBRAZU\n--------------------------------\n");
     printf("Obrazów w pamięci: %d\n", ile);
-    printf("1 - Dodaj obraz\n"
+    printf("11 - Dodaj obraz\n"
+           "12 - Dodaj wszystkie obrazy \"*.pgm\" z folderu\n"
            "2 - Wyswietl obraz\n"
            "31 - Inwersja\n"
            "32 - Rozjaśnij\n"
@@ -43,8 +44,20 @@ element * wiadomosc_powitalna(element *lista)
         {
         case '1':
             if(_DEBUG) printf("Wybrano %c\n",c);
-            lista = odczytaj_plik(lista);
-            break;
+            c = getchar();
+            switch (c)
+            {
+                case '1':
+                    lista = odczytaj_plik(lista);
+                    break;
+                case '2':
+                    lista = odczytaj_wszystkie_pliki(lista);
+                    break;
+                default:
+                    printf("Niepoprawny wybór\n");
+                    break;
+            }
+        }
         case '2':
             if (_DEBUG) printf("Wybrano %c\n", c);
             wyswietl_obraz(wybierz_obraz(lista));

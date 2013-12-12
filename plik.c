@@ -211,6 +211,20 @@ int odczytaj_wielkosc_obrazka(FILE *plik, obraz *img)
     return SIZE_OK;
 }
 
+int odczytaj_wszystkie_pliki(element *lista)
+{
+#ifdef WIN32
+    FILE *ls = _popen("dir /b *.pgm", "r");
+#else
+    FILE *ls = popen("ls *.pgm", "r");
+#endif
+#ifdef WIN32
+    _pclose(ls);
+#else
+    pclose(ls);
+#endif
+}
+
 int sprawdz_czy_komentarz(FILE *plik)
 {
     char c = fgetc(plik);
