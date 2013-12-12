@@ -16,6 +16,7 @@ void tekst_powitalny(int ile)
            "32 - Rozjaśnij\n"
            "33 - Przyciemnij\n"
            "34 - Kafelki\n"
+           "35 - Rozmycie Gaussa\n"
            "41 - Obrót w prawo\n"
            "42 - Obrót w lewo\n"
            "43 - Obrót o 180\n"
@@ -67,6 +68,10 @@ element * wiadomosc_powitalna(element *lista)
             case '4':
                 if (_DEBUG) printf("%c\n", c);
                 kafelki(wybierz_obraz(lista));
+                break;
+            case '5':
+                if (_DEBUG) printf("%c\n", c);
+                rozmycie_Gaussa(wybierz_obraz(lista));
                 break;
             default:
                 printf("Niepoprawny wybór\n");

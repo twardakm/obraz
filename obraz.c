@@ -288,6 +288,95 @@ void rozjasnij(obraz *img)
     return;
 }
 
+void rozmycie_Gaussa(obraz *img)
+{
+    if (img == NULL)
+        return;
+    if (img->rodzaj == 1)
+    {
+        printf("Rozmycie Gaussa nie jest obsługiwane dla tego typu pliku\n");
+        return;
+    }
+
+    int r, i, j, k, l, suma, wsp, sr;
+
+    printf("Podaj promień rozmycia: ");
+    scanf("%d", &r);
+
+    for (i = r; i <= (img->height - r); i+=(2*r + 1))
+    {
+        for (j = r; j <= img->width - r; j += (2*r))
+        {
+            suma = 0;
+            for (k = (i - r); k <= (i + r) && k < img->height; k++)
+            {
+                for (l = (j - r); l < (j + r); l++)
+                    suma += img->dane[k][l];
+            }
+            for (k = (i - r); k <= (i + r) && k < img->height; k++)
+            {
+                wsp = suma / ((2*r + 1) * (2*r));
+                for (l = (j - r); l < (j + r); l++)
+                    img->dane[k][l] = wsp;
+            }
+        }
+        //warunki brzegowe
+        wsp = 0;
+        suma = 0;
+        if ((j - r) < (img->width - 1))
+        {
+            for (k = (i - r); k <= (i + r) && k < img->height; k++)
+            {
+                for (l = (j - r); l < img->width; l++)
+                {
+                    suma += img->dane[k][l];
+                    wsp++;
+                }
+            }
+            for (k = (i - r); k <= (i + r) && k < img->height; k++)
+            {
+                for (l = (j - r); l < img->width; l++)
+                {
+                    sr = suma / wsp;
+                    img->dane[k][l] = sr;
+                }
+            }
+        }
+    }
+    wsp = 0;
+    suma = 0;
+    i -= r;
+    if (i < img->height - 1)
+    {
+        for (j = r; j < img->width; j += (2*r))
+        {
+            wsp = 0;
+            suma = 0;
+            for (k = i; k < img->height; k++)
+            {
+                for (l = (j - r); l <= (j + r) && l < img->width; l++)
+                {
+                    suma += img->dane[k][l];
+                    wsp++;
+                }
+            }
+            sr = suma / wsp;
+            for (k = i; k < img->height; k++)
+            {
+                for (l = (j - r); l <= (j + r) && l < img->width; l++)
+                {
+                    img->dane[k][l] = sr;
+                }
+            }
+        }
+    }
+    if (_DEBUG) printf("k: %d\tl: %d", k, l);
+
+    img->czy_zmieniane = 1;
+
+    return;
+}
+
 void wyswietl_obraz(obraz *img)
 {
     if (img == NULL)

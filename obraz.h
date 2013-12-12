@@ -19,6 +19,7 @@ void obort_lewo(obraz *img);
 void obrot_prawo(obraz *img);
 void przyciemnij(obraz *img);
 void rozjasnij(obraz *img);
+void rozmycie_Gaussa(obraz *img);
 void wyswietl_obraz(obraz *img);
 int zarezerwuj_pamiec_dane(obraz *img);
 void zmniejsz_obraz(obraz *img);
