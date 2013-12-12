@@ -36,6 +36,45 @@ void inwersja(obraz *img)
     return;
 }
 
+void kafelki(obraz *img)
+{
+    if (img == NULL)
+        return;
+    if (img->rodzaj == 1)
+    {
+        printf("Kafelki nie są obsługiwane dla tego typu pliku\n");
+        return;
+    }
+
+    int r, i, j, k, l, suma, wsp;
+
+    printf("Podaj wielkość kafelka: ");
+    scanf("%d", &r);
+
+    for (i = r; i < (img->height - r); i+=(2*r + 1))
+    {
+        for (j = r; j < img->width - r; j += (2*r + 1))
+        {
+            suma = 0;
+            for (k = (i - r); k < (i + r); k++)
+            {
+                for (l = (j - r); l < (j + r); l++)
+                    suma += img->dane[k][l];
+            }
+            for (k = (i - r); k < (i + r); k++)
+            {
+                wsp = suma / ((2*r + 1) * (2*r+1));
+                for (l = (j - r); l < (j + r); l++)
+                    img->dane[k][l] = wsp;
+            }
+        }
+    }
+
+    img->czy_zmieniane = 1;
+
+    return;
+}
+
 void obrot_180(obraz *img)
 {
     if (img == NULL)
@@ -135,7 +174,6 @@ void obrot_prawo(obraz *img)
 
 void przyciemnij(obraz *img)
 {
-    int wsp, i ,j;
     if (img == NULL)
         return;
     if (img->rodzaj == 1)
@@ -143,6 +181,8 @@ void przyciemnij(obraz *img)
         printf("Nie można przyciemnić tego typu pliku!\n");
         return;
     }
+
+    int wsp, i ,j;
 
     do
     {
@@ -167,7 +207,6 @@ void przyciemnij(obraz *img)
 
 void rozjasnij(obraz *img)
 {
-    int wsp, i ,j;
     if (img == NULL)
         return;
     if (img->rodzaj == 1)
@@ -175,6 +214,8 @@ void rozjasnij(obraz *img)
         printf("Nie można rozjaśnić tego typu pliku!\n");
         return;
     }
+
+    int wsp, i ,j;
 
     do
     {
