@@ -22,7 +22,7 @@ void tekst_powitalny(int ile)
            "43 - Obrót o 180\n"
            "44 - Zmniejsz obraz\n"
            "5 - Zapisz zmienione obrazy\n"
-           "0 - Wyjdź\n");
+           "6 - Wyjdź\n");
 }
 
 void ustaw_kodowanie()
@@ -109,7 +109,7 @@ element * wiadomosc_powitalna(element *lista)
             if (_DEBUG) printf("Wybrano %c", c);
 
             break;
-        case '0':
+        case '6':
             if(_DEBUG) printf("Wybrano %c\n",c);
             zakoncz_program(lista);
             printf("Dziękuję za skorzystanie z programu!\nMarcin Twardak\n");
