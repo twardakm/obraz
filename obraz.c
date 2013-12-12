@@ -133,6 +133,70 @@ void obrot_prawo(obraz *img)
     return;
 }
 
+void przyciemnij(obraz *img)
+{
+    int wsp, i ,j;
+    if (img == NULL)
+        return;
+    if (img->rodzaj == 1)
+    {
+        printf("Nie można przyciemnić tego typu pliku!\n");
+        return;
+    }
+
+    do
+    {
+        printf("O ile procent przyciemnić: ");
+        scanf("%d", &wsp);
+    } while (wsp <= 0);
+    double a = wsp / 100.;
+
+    for (i = 0; i < img->height; i++)
+    {
+        for (j = 0; j < img->width; j++)
+        {
+            img->dane[i][j] -= img->dane[i][j] * a;
+            if (img->dane[i][j] < 0)
+                img->dane[i][j] = 0;
+        }
+    }
+
+    img->czy_zmieniane = 1;
+    return;
+}
+
+void rozjasnij(obraz *img)
+{
+    int wsp, i ,j;
+    if (img == NULL)
+        return;
+    if (img->rodzaj == 1)
+    {
+        printf("Nie można rozjaśnić tego typu pliku!\n");
+        return;
+    }
+
+    do
+    {
+        printf("O ile procent rozjaśnić: ");
+        scanf("%d", &wsp);
+    } while (wsp <= 0 || wsp > 100);
+    wsp *= img->color;
+
+    for (i = 0; i < img->height; i++)
+    {
+        for (j = 0; j < img->width; j++)
+        {
+            img->dane[i][j] += wsp;
+            if (img->dane[i][j] > img->color)
+                img->dane[i][j] = img->color;
+        }
+    }
+
+    img->czy_zmieniane = 1;
+    return;
+}
+
 void wyswietl_obraz(obraz *img)
 {
     if (img == NULL)
