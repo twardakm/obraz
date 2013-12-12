@@ -21,6 +21,7 @@ void tekst_powitalny(int ile)
            "42 - Obrót w lewo\n"
            "43 - Obrót o 180\n"
            "44 - Zmniejsz obraz\n"
+           "5 - Zapisz zmienione obrazy\n"
            "0 - Wyjdź\n");
 }
 
@@ -104,6 +105,10 @@ element * wiadomosc_powitalna(element *lista)
                 break;
             }
             break;
+        case '5':
+            if (_DEBUG) printf("Wybrano %c", c);
+
+            break;
         case '0':
             if(_DEBUG) printf("Wybrano %c\n",c);
             zakoncz_program(lista);
@@ -139,25 +144,6 @@ obraz * wybierz_obraz(element *lista)
 
 int zakoncz_program(element *lista)
 {
-    int i, err;
-    int ile = size(lista);
-    for (i = 0; i < ile; i++)
-    {
-        if (lista->img->czy_zmieniane)
-        {
-            printf("Plik %s został zmieniony\n"
-                   "Czy chcesz go zapisać? (\'T\', \'N\') ",
-                   lista->img->nazwa_pliku);
-            if (czy_zapisac())
-            {
-                if((err = zapisz_plik(lista->img)) != SAVE_OK)
-                {
-                    printf("Nie udało się zapisać pliku %s\n", lista->img->nazwa_pliku);
-                    if (_DEBUG) printf("Bład: %d\n", err);
-                }
-            }
-        }
-        lista = lista->next;
-    }
+    zapisz_wszystkie_pliki(lista);
     return END_OK;
 }

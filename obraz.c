@@ -303,9 +303,9 @@ void rozmycie_Gaussa(obraz *img)
     printf("Podaj promień rozmycia: ");
     scanf("%d", &r);
 
-    for (i = r; i <= (img->height - r); i+=(2*r + 1))
+    for (i = r; i <= (img->height - r); i+=r/1.5)
     {
-        for (j = r; j <= img->width - r; j += (2*r))
+        for (j = r; j <= img->width - r; j+=r/1.5)
         {
             suma = 0;
             for (k = (i - r); k <= (i + r) && k < img->height; k++)
@@ -348,7 +348,7 @@ void rozmycie_Gaussa(obraz *img)
     i -= r;
     if (i < img->height - 1)
     {
-        for (j = r; j < img->width; j += (2*r))
+        for (j = r; j < img->width; j+=r/1.5)
         {
             wsp = 0;
             suma = 0;

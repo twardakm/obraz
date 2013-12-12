@@ -319,3 +319,28 @@ int zapisz_plik(obraz *img)
 
     return SAVE_OK;
 }
+
+int zapisz_wszystkie_pliki(element *lista)
+{
+    int i, err;
+    int ile = size(lista);
+    for (i = 0; i < ile; i++)
+    {
+        if (lista->img->czy_zmieniane)
+        {
+            printf("Plik %s został zmieniony\n"
+                   "Czy chcesz go zapisać? (\'T\', \'N\') ",
+                   lista->img->nazwa_pliku);
+            if (czy_zapisac())
+            {
+                if((err = zapisz_plik(lista->img)) != SAVE_OK)
+                {
+                    printf("Nie udało się zapisać pliku %s\n", lista->img->nazwa_pliku);
+                    if (_DEBUG) printf("Bład: %d\n", err);
+                }
+            }
+        }
+        lista = lista->next;
+    }
+    return SAVE_OK;
+}
