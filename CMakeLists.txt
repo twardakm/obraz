@@ -1,6 +1,6 @@
 project(odczytywanie_obrazu)
 cmake_minimum_required(VERSION 2.8)
-set(CMAKE_C_FLAGS "-D_DEBUG=1")
+set(CMAKE_C_FLAGS "-D_DEBUG=0")
 file(GLOB Demo_HEADERS RELATIVE ${CMAKE_SOURCE_DIR}/include "*.h")
 SET(obraz_SOURCES)
 SET(obraz_HEADERS lista.h menu.h obraz.h plik.h errors.h)
