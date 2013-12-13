@@ -382,9 +382,10 @@ void wyswietl_obraz(obraz *img)
     if (img == NULL)
         return;
     printf("\n---------------\nWyswietlanie obrazu: %s\n---------------\n"
-           "Rodzaj: P%d\tWysokość: %d\tSzerokość: %d\n"
-           "Maksymalna wartość składowa koloru: %d\n---------------\n",
-           img->nazwa_pliku, img->rodzaj, img->height, img->width, img->color);
+           "Rodzaj: P%d\tWysokość: %d\tSzerokość: %d\n",
+           img->nazwa_pliku, img->rodzaj, img->height, img->width);
+    if (img->rodzaj == 2)
+        printf("Maksymalna składowa koloru: %d\n---------------\n", img->color);
 
     if (img->rodzaj == 1)
     {
