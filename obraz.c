@@ -417,61 +417,6 @@ int zarezerwuj_pamiec_dane(obraz *img)
     return MALLOC_OK;
 }
 
-void zmien_rozmiar(obraz *img)
-{
-    if (img == NULL)
-        return;
-
-    int width, height;
-
-    printf("Aktualne wymiary obrazu %s:\n"
-           "Szerokość: %d\n"
-           "Wysokość %d\n"
-           "Maksymalny rozmiar: %d x %d\n",
-           img->nazwa_pliku, img->width, img->height, MAX_WIDTH, MAX_HEIGHT);
-    printf("Podaj nową szerokość: ");
-    scanf("%d", &width);
-    printf("Podaj nową wysokość: ");
-    scanf("%d", &height);
-
-    if (width > MAX_WIDTH || height > MAX_HEIGHT)
-    {
-        printf("Zbyt duży rozmiar\n");
-        return;
-    }
-
-    double rx, ry;
-    int **dane, i, j;
-
-    rx = (double)(img->width-1)/(width-1); //współczynniki rozszerzenia
-    ry = (double)(img->height-1)/(height-1);
-
-    if (_DEBUG) printf("rx: %lf\try: %lf\n",rx,ry);
-
-    dane = (int **)malloc(sizeof(int) * height);
-    for (i = 0; i < height; i++)
-        dane[i] = (int *)malloc(sizeof(int) * width);
-
-    if (_DEBUG) printf("Zaalokowano pamięć\n");
-
-    for (i = 0; i < height && i * ry < img->height; i++)
-        for (j = 0; j < width && j * rx < img->width; j++)
-            dane[i][j] = img->dane[(int)(i * ry)][(int)(j * rx)];
-
-    if (_DEBUG) printf("Zwalnianie pamięci\n");
-
-    for (i = 0; i < img->height; i++)
-        free(img->dane[i]);
-    free(img->dane);
-
-    img->height = height;
-    img->width = width;
-    img->dane = dane;
-    img->czy_zmieniane = 1;
-
-    return;
-}
-
 void zmniejsz_obraz(obraz *img)
 {
     if(img == NULL)
