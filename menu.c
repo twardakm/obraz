@@ -43,21 +43,23 @@ element * wiadomosc_powitalna(element *lista)
         switch(c)
         {
         case '1':
-            if(_DEBUG) printf("Wybrano %c\n",c);
+            if(_DEBUG) printf("Wybrano %c",c);
             c = getchar();
             switch (c)
             {
                 case '1':
-                    lista = odczytaj_plik(lista);
+                    if (_DEBUG) printf("%c\n", c);
+                    lista = odczytaj_plik(lista, NULL);
                     break;
                 case '2':
+                    if (_DEBUG) printf("%c\n", c);
                     lista = odczytaj_wszystkie_pliki(lista);
                     break;
                 default:
                     printf("Niepoprawny wybór\n");
                     break;
             }
-        }
+            break;
         case '2':
             if (_DEBUG) printf("Wybrano %c\n", c);
             wyswietl_obraz(wybierz_obraz(lista));

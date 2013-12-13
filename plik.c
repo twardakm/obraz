@@ -67,26 +67,32 @@ int odczytaj_maksymalny_kolor(FILE *plik, obraz *img)
     return COLOR_OK;
 }
 
-element * odczytaj_plik(element *lista)
+element * odczytaj_plik(element *lista, char *nazwa_pliku)
 {
-    char *nazwa_pliku = (char *)malloc(sizeof(char) * MAX_FILE_NAME + 1);
-    FILE *plik;
-    wyswietl_pliki(); //wyświetlanie dostępnych plików
-    printf("Podaj nazwę pliku (maksymalnie %d znaków):\n", MAX_FILE_NAME);
-    //konieczne żeby odczytywać całą linię
-    //---------
-    while(getchar() != '\n');
-    fgets(nazwa_pliku, MAX_FILE_NAME, stdin);
-    strtok(nazwa_pliku, "\n");
-    //---------
+    int czy_NULL = 0;
+    if (nazwa_pliku == NULL)
+    {
+        czy_NULL = 1;
+        nazwa_pliku = (char *)malloc(sizeof(char) * MAX_FILE_NAME + 1);
+        wyswietl_pliki(); //wyświetlanie dostępnych plików
+        printf("Podaj nazwę pliku (maksymalnie %d znaków):\n", MAX_FILE_NAME);
+        //konieczne żeby odczytywać całą linię
+        //---------
+        while(getchar() != '\n');
+        fgets(nazwa_pliku, MAX_FILE_NAME, stdin);
+        strtok(nazwa_pliku, "\n");
+        //---------
+    }
 
     if (_DEBUG) printf ("Nazwa pliku: %s\n", nazwa_pliku);
 
+    FILE *plik;
     printf("Otwieranie pliku... %s ", nazwa_pliku);
     //otwarcie podanego pliku w trybie do odczytu
     if((plik = fopen(nazwa_pliku, "r")) == NULL)
     {
         perror("Nie udało się otworzyć podanego pliku\n");
+        printf("\n");
         return lista;
     }
     else
@@ -146,7 +152,8 @@ element * odczytaj_plik(element *lista)
     lista = push(lista,temp);
 
     fclose(plik);
-    free(nazwa_pliku);
+    if (czy_NULL)
+        free(nazwa_pliku);
 
     return lista;
 }
@@ -211,18 +218,42 @@ int odczytaj_wielkosc_obrazka(FILE *plik, obraz *img)
     return SIZE_OK;
 }
 
-int odczytaj_wszystkie_pliki(element *lista)
+element * odczytaj_wszystkie_pliki(element *lista)
 {
 #ifdef WIN32
     FILE *ls = _popen("dir /b *.pgm", "r");
 #else
     FILE *ls = popen("ls *.pgm", "r");
 #endif
+    if (_DEBUG) printf("Stworzono ls\n");
+    if (ls == NULL)
+    {
+        perror ("Nie odnaleziono polecenia ls, wpisz nazwę pliku z pamięci\n");
+        return lista;
+    }
+
+    char * temp = (char *)malloc(sizeof(char) * MAX_FILE_NAME + 1);
+    int i = 0;
+    while (!feof(ls))
+    {
+        fgets(temp, MAX_FILE_NAME, ls);
+        strtok(temp, "\n");
+        if (!feof(ls))
+        {
+            printf("Otwieranie pliku %s...\n", temp);
+            lista = odczytaj_plik(lista, temp);
+            printf("\n");
+        }
+    }
+
+    free(temp);
+
 #ifdef WIN32
     _pclose(ls);
 #else
     pclose(ls);
 #endif
+    return lista;
 }
 
 int sprawdz_czy_komentarz(FILE *plik)
@@ -239,7 +270,7 @@ int sprawdz_czy_komentarz(FILE *plik)
     }
     if (!fseek(plik, ftell(plik) - 1, SEEK_SET))
     {
-        if (_DEBUG) printf("Nie znaleziono komentarza\n");
+        //if (_DEBUG) printf("Nie znaleziono komentarza\n");
         return COMMENT_OK;
     }
     else

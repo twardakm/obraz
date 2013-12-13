@@ -10,7 +10,7 @@
 int czy_zapisac();
 int odczytaj_dane(FILE *plik, obraz *img);
 int odczytaj_maksymalny_kolor(FILE *plik, obraz *img);
-element * odczytaj_plik(element *lista);
+element * odczytaj_plik(element *lista, char *nazwa_pliku);
 int odczytaj_rodzaj_obrazka(FILE *plik, obraz *img);
 int odczytaj_wielkosc_obrazka(FILE *plik, obraz *img);
 element * odczytaj_wszystkie_pliki(element *lista);
