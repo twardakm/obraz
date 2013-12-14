@@ -33,6 +33,10 @@ void inwersja(obraz *img)
     }
 
     img->czy_zmieniane = 1;
+
+    printf("Plik %s został poprawnie zmieniony\n", img->nazwa_pliku);
+    getchar();
+
     return;
 }
 
@@ -122,6 +126,9 @@ void kafelki(obraz *img)
 
     img->czy_zmieniane = 1;
 
+    printf("Plik %s został poprawnie zmieniony\n", img->nazwa_pliku);
+    getchar();
+
     return;
 }
 
@@ -153,6 +160,10 @@ void obrot_180(obraz *img)
     img->dane = dane;
 
     img->czy_zmieniane = 1;
+
+    printf("Plik %s został poprawnie zmieniony\n", img->nazwa_pliku);
+    getchar();
+
     return;
 }
 
@@ -219,6 +230,10 @@ void obrot_prawo(obraz *img)
     img->width = j;
 
     img->czy_zmieniane = 1;
+
+    printf("Plik %s został poprawnie zmieniony\n", img->nazwa_pliku);
+    getchar();
+
     return;
 }
 
@@ -252,6 +267,10 @@ void przyciemnij(obraz *img)
     }
 
     img->czy_zmieniane = 1;
+
+    printf("Plik %s został poprawnie zmieniony\n", img->nazwa_pliku);
+    getchar();
+
     return;
 }
 
@@ -272,19 +291,23 @@ void rozjasnij(obraz *img)
         printf("O ile procent rozjaśnić: ");
         scanf("%d", &wsp);
     } while (wsp <= 0 || wsp > 100);
-    wsp *= img->color;
+    double a = wsp / 100.;
 
     for (i = 0; i < img->height; i++)
     {
         for (j = 0; j < img->width; j++)
         {
-            img->dane[i][j] += wsp;
+            img->dane[i][j] += img->dane[i][j] * a;
             if (img->dane[i][j] > img->color)
                 img->dane[i][j] = img->color;
         }
     }
 
     img->czy_zmieniane = 1;
+
+    printf("Plik %s został poprawnie zmieniony\n", img->nazwa_pliku);
+    getchar();
+
     return;
 }
 
@@ -374,6 +397,9 @@ void rozmycie_Gaussa(obraz *img)
 
     img->czy_zmieniane = 1;
 
+    printf("Plik %s został poprawnie zmieniony\n", img->nazwa_pliku);
+    getchar();
+
     return;
 }
 
@@ -403,6 +429,8 @@ void wyswietl_obraz(obraz *img)
             printf("\n");
         }
     }
+
+    getchar();
 }
 
 int zarezerwuj_pamiec_dane(obraz *img)
@@ -469,6 +497,10 @@ void zmien_rozmiar(obraz *img)
     img->width = width;
     img->dane = dane;
     img->czy_zmieniane = 1;
+
+    printf("Plik %s został poprawnie zmieniony\n", img->nazwa_pliku);
+    getchar();
+
 
     return;
 }
@@ -565,6 +597,10 @@ void zmniejsz_obraz(obraz *img)
     img->width = width;
     img->height = height;
     img->czy_zmieniane = 1;
+
+    printf("Plik %s został poprawnie zmieniony\n", img->nazwa_pliku);
+    getchar();
+
     return;
 }
 
