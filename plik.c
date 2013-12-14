@@ -233,7 +233,6 @@ element * odczytaj_wszystkie_pliki(element *lista)
     }
 
     char * temp = (char *)malloc(sizeof(char) * MAX_FILE_NAME + 1);
-    int i = 0;
     while (!feof(ls))
     {
         fgets(temp, MAX_FILE_NAME, ls);
